@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Assistant</title>
+    <!-- Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #4a5568;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #edf2f7;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            background: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .input-section textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .input-section textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-upload-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .file-upload-section h3 {
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .file-label:hover {
+            background: #5a67d8;
+        }
+
+        .file-name {
+            color: #4a5568;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .upload-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: #38a169;
+        }
+
+        .upload-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .button-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .output-section {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .output-header h3 {
+            color: #2d3748;
+        }
+
+        .output-content {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            min-height: 200px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .output-content pre {
+            margin: 0;
+            background: #1e1e1e;
+        }
+
+        .output-content code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            color: #e53e3e;
+            background: #fff5f5;
+            border: 1px solid #fc8181;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .copy-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #38a169;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 15px;
+            background: #edf2f7;
+            border-radius: 6px;
+        }
+
+        .examples h4 {
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .example-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .example-tag {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px solid #cbd5e0;
+            transition: all 0.2s ease;
+        }
+
+        .example-tag:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .language-selector {
+            margin-bottom: 15px;
+        }
+
+        .language-selector select {
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Code Assistant</h1>
+            <p>Generate, debug, and analyze code with AI</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('generate')">🚀 Generate Code</div>
+            <div class="tab" onclick="switchTab('debug')">🐛 Debug Code</div>
+            <div class="tab" onclick="switchTab('analyze')">📁 Analyze File</div>
+        </div>
+        
+        <!-- Generate Tab -->
+        <div id="generate-tab" class="tab-content active">
+            <div class="input-section">
+                <label for="generate-task">What code would you like me to generate?</label>
+                <textarea id="generate-task" placeholder="Example: Create a function to calculate fibonacci numbers..."></textarea>
+            </div>
+            
+            <div class="language-selector">
+                <label for="language">Programming Language:</label>
+                <select id="language">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="c">C</option>
+                    <option value="cpp">C++</option>
+                </select>
+            </div>
+            
+            <div class="button-section">
+                <button class="btn btn-primary" onclick="generateCode()">Generate Code</button>
+                <button class="btn btn-secondary" onclick="clearGenerate()">Clear</button>
+            </div>
+            
+            <div class="examples">
+                <h4>Try these examples:</h4>
+                <div class="example-tags">
+                    <span class="example-tag" onclick="useGenerateExample('Create a function to check if a number is prime')">Prime Number Checker</span>
+                    <span class="example-tag" onclick="useGenerateExample('Create a function to sort a list using bubble sort')">Bubble Sort</span>
+                    <span class="example-tag" onclick="useGenerateExample('Create a function to find the factorial of a number')">Factorial</span>
+                    <span class="example-tag" onclick="useGenerateExample('Create a class for a simple bank account with deposit and withdraw methods')">Bank Account Class</span>
+                    <span class="example-tag" onclick="useGenerateExample('Create a function to reverse a string')">Reverse String</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Debug Tab -->
+        <div id="debug-tab" class="tab-content">
+            <div class="input-section">
+                <label for="debug-task">Paste your code to debug:</label>
+                <textarea id="debug-task" placeholder="Paste your code here..."></textarea>
+            </div>
+            
+            <div class="button-section">
+                <button class="btn btn-primary" onclick="debugCode()">Debug Code</button>
+                <button class="btn btn-secondary" onclick="clearDebug()">Clear</button>
+            </div>
+        </div>
+        
+        <!-- Analyze File Tab -->
+        <div id="analyze-tab" class="tab-content">
+            <div class="file-upload-section">
+                <h3>📤 Upload a file to analyze</h3>
+                <div class="file-input-wrapper">
+                    <input type="file" id="file-input" class="file-input" onchange="updateFileName()">
+                    <label for="file-input" class="file-label">Choose File</label>
+                    <span id="file-name" class="file-name">No file chosen</span>
+                    <button class="upload-btn" onclick="uploadAndAnalyze()" id="upload-btn" disabled>Upload & Analyze</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 12px; color: #718096;">Supported: .py, .js, .java, .c, .cpp, .txt, .pdf</p>
+            </div>
+            
+            <div class="input-section">
+                <label for="analyze-question">Ask about the file (optional):</label>
+                <textarea id="analyze-question" placeholder="Example: Explain what this code does or Find bugs in this code..."></textarea>
+            </div>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Processing... This may take a moment.</p>
+        </div>
+        
+        <!-- Output Section -->
+        <div class="output-section">
+            <div class="output-header">
+                <h3 id="output-title">Generated Code:</h3>
+                <button class="copy-btn" onclick="copyToClipboard()" id="copyBtn" style="display: none;">Copy to Clipboard</button>
+            </div>
+            <div class="output-content" id="output">
+                <pre><code class="language-python" id="code-output">Your output will appear here...</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let currentLanguage = 'python';
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Update output title
+            const titles = {
+                'generate': 'Generated Code:',
+                'debug': 'Debugged Code:',
+                'analyze': 'File Analysis:'
+            };
+            document.getElementById('output-title').textContent = titles[tabName];
+        }
+        
+        // Language selector
+        document.getElementById('language').addEventListener('change', function(e) {
+            currentLanguage = e.target.value;
+            document.getElementById('code-output').className = `language-${currentLanguage}`;
+        });
+        
+        // Generate code
+        async function generateCode() {
+            const task = document.getElementById('generate-task').value.trim();
+            
+            if (!task) {
+                alert('Please enter a task description');
+                return;
+            }
+            
+            // Add language to the prompt
+            const enhancedTask = `Write ${currentLanguage} code for: ${task}`;
+            
+            await processRequest('generate', enhancedTask);
+        }
+        
+        // Debug code
+        async function debugCode() {
+            const code = document.getElementById('debug-task').value.trim();
+            
+            if (!code) {
+                alert('Please paste some code to debug');
+                return;
+            }
+            
+            const task = `Debug this code and provide the fixed version:\n\n${code}`;
+            await processRequest('debug', task);
+        }
+        
+        // Process request
+        async function processRequest(type, task) {
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('code-output').innerHTML = 'Processing...';
+            document.getElementById('copyBtn').style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ task: task })
+                });
+                
+                const data = await response.json();
+                
+                // Hide loading
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.error) {
+                    document.getElementById('code-output').innerHTML = `Error: ${data.error}`;
+                } else {
+                    // Format the output
+                    document.getElementById('code-output').innerHTML = data.result;
+                    Prism.highlightElement(document.getElementById('code-output'));
+                    document.getElementById('copyBtn').style.display = 'inline-block';
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('code-output').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // File handling
+        function updateFileName() {
+            const fileInput = document.getElementById('file-input');
+            const fileName = document.getElementById('file-name');
+            const uploadBtn = document.getElementById('upload-btn');
+            
+            if (fileInput.files.length > 0) {
+                fileName.textContent = fileInput.files[0].name;
+                uploadBtn.disabled = false;
+                currentFile = fileInput.files[0];
+            } else {
+                fileName.textContent = 'No file chosen';
+                uploadBtn.disabled = true;
+                currentFile = null;
+            }
+        }
+        
+        async function uploadAndAnalyze() {
+            if (!currentFile) {
+                alert('Please select a file first');
+                return;
+            }
+            
+            const question = document.getElementById('analyze-question').value.trim();
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('code-output').innerHTML = 'Uploading and analyzing file...';
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('file', currentFile);
+            formData.append('question', question || 'Analyze this file and explain what it does');
+            
+            try {
+                const response = await fetch('/api/analyze-file', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.error) {
+                    document.getElementById('code-output').innerHTML = `Error: ${data.error}`;
+                } else {
+                    document.getElementById('code-output').innerHTML = data.result;
+                    Prism.highlightElement(document.getElementById('code-output'));
+                    document.getElementById('copyBtn').style.display = 'inline-block';
+                }
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('code-output').innerHTML = `Error: ${error.message}`;
+            }
+        }
+        
+        // Helper functions
+        function clearGenerate() {
+            document.getElementById('generate-task').value = '';
+        }
+        
+        function clearDebug() {
+            document.getElementById('debug-task').value = '';
+        }
+        
+        function useGenerateExample(example) {
+            document.getElementById('generate-task').value = example;
+            switchTab('generate');
+        }
+        
+        function copyToClipboard() {
+            const output = document.getElementById('code-output').innerText;
+            navigator.clipboard.writeText(output).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy code');
+            });
+        }
+        
+        // Enter key shortcut for generate
+        document.getElementById('generate-task').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                generateCode();
+            }
+        });
+    </script>
+</body>
+</html>

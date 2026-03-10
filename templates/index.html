@@ -3,226 +3,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Code Assistant</title>
+    <title>AI Code Assistant - Your Coding Partner</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Prism.js for syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-c.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<!-- Load only the languages we need -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-markup.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-csharp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-rust.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-typescript.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        .header {
-            background: #4a5568;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .tabs {
             display: flex;
-            background: #edf2f7;
-            border-bottom: 2px solid #e2e8f0;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .tab {
+        /* Main container with sidebar layout */
+        .app-container {
+            width: 100%;
+            max-width: 1600px;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            transform: rotate(10deg);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(0deg);
+        }
+
+        .logo-text h2 {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            color: #a0aec0;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        /* Navigation menu */
+        .nav-menu {
             flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 600;
-            color: #4a5568;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            color: #a0aec0;
             transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            border: 1px solid transparent;
         }
 
-        .tab.active {
+        .nav-item i {
+            width: 24px;
+            font-size: 18px;
+        }
+
+        .nav-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: white;
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Recent files section */
+        .recent-files {
+            margin-top: auto;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+        }
+
+        .recent-files h4 {
+            color: #a0aec0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            color: #a0aec0;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .file-item i {
+            font-size: 14px;
             color: #667eea;
-            border-bottom: 3px solid #667eea;
-            background: white;
         }
 
-        .tab-content {
-            display: none;
-            padding: 30px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        /* Main content area */
         .main-content {
+            flex: 1;
             padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
-        .input-section {
-            margin-bottom: 30px;
+        /* Welcome header */
+        .welcome-header {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .input-section label {
-            display: block;
-            margin-bottom: 10px;
+        .welcome-header h1 {
+            color: white;
+            font-size: 28px;
             font-weight: 600;
-            color: #2d3748;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a0aec0 100%);
+            -webkit-background-clip: text;
+            -moz-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-text-fill-color: transparent;
         }
 
-        .input-section textarea {
+        .welcome-header p {
+            color: #a0aec0;
+            font-size: 16px;
+        }
+
+        /* Tab content sections */
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input card styles */
+        .input-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .input-card h3 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-card h3 i {
+            color: #667eea;
+        }
+
+        textarea {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
             resize: vertical;
             min-height: 120px;
-            font-family: inherit;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
         }
 
-        .input-section textarea:focus {
+        textarea:focus {
             outline: none;
             border-color: #667eea;
+            background: rgba(0, 0, 0, 0.4);
         }
 
-        .file-upload-section {
-            margin-bottom: 20px;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 8px;
-            border: 2px dashed #cbd5e0;
-        }
-
-        .file-upload-section h3 {
-            margin-bottom: 15px;
-            color: #2d3748;
-            font-size: 16px;
-        }
-
-        .file-input-wrapper {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .file-input {
+        /* Inline loading indicator */
+        .inline-loading {
             display: none;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            margin: 15px 0;
         }
 
-        .file-label {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .file-label:hover {
-            background: #5a67d8;
-        }
-
-        .file-name {
-            color: #4a5568;
-            font-size: 14px;
-            flex: 1;
-        }
-
-        .upload-btn {
-            background: #48bb78;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .upload-btn:hover {
-            background: #38a169;
-        }
-
-        .upload-btn:disabled {
-            background: #cbd5e0;
-            cursor: not-allowed;
-        }
-
-        .button-section {
+        .inline-loading.active {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
+        }
+
+        .inline-spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .inline-loading span {
+            color: white;
+            font-size: 15px;
+        }
+
+        .inline-loading .cancel-btn {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #a0aec0;
+            padding: 5px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        .inline-loading .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* File upload area */
+        .upload-area {
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px dashed rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .upload-area p {
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        .upload-area .file-name {
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Button styles */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
         }
 
         .btn-primary {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             flex: 1;
+            justify-content: center;
         }
 
-        .btn-primary:hover {
-            background: #5a67d8;
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
-            background: #e2e8f0;
-            color: #4a5568;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-secondary:hover {
-            background: #cbd5e0;
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
-        .output-section {
-            background: #f7fafc;
-            border-radius: 8px;
-            padding: 20px;
-            border: 2px solid #e2e8f0;
+        .btn-outline {
+            background: transparent;
+            color: #a0aec0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-outline:hover {
+            border-color: #667eea;
+            color: white;
+        }
+
+        /* Examples grid */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .example-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: #a0aec0;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-item i {
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        .example-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: white;
+            transform: translateX(5px);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        /* Output section */
+        .output-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .output-header {
@@ -233,402 +467,1111 @@
         }
 
         .output-header h3 {
-            color: #2d3748;
-        }
-
-        .output-content {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            min-height: 200px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .output-content pre {
-            margin: 0;
-            background: #1e1e1e;
-        }
-
-        .output-content code {
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error {
-            color: #e53e3e;
-            background: #fff5f5;
-            border: 1px solid #fc8181;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-
-        .copy-btn {
-            background: #48bb78;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .copy-btn:hover {
-            background: #38a169;
-        }
-
-        .examples {
-            margin-top: 20px;
-            padding: 15px;
-            background: #edf2f7;
-            border-radius: 6px;
-        }
-
-        .examples h4 {
-            margin-bottom: 10px;
-            color: #4a5568;
-        }
-
-        .example-tags {
+            font-size: 18px;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             gap: 10px;
         }
 
-        .example-tag {
-            background: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            border: 1px solid #cbd5e0;
-            transition: all 0.2s ease;
+        .output-actions {
+            display: flex;
+            gap: 10px;
         }
 
-        .example-tag:hover {
+        .output-actions button {
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            color: #a0aec0;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .output-actions button:hover {
             background: #667eea;
             color: white;
-            border-color: #667eea;
         }
 
-        .language-selector {
-            margin-bottom: 15px;
+        .code-container {
+            background: #0d1117;
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .language-selector select {
-            padding: 8px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
+        .code-container pre {
+            margin: 0;
+            background: transparent;
+        }
+
+        .code-container code {
+            font-family: 'Fira Code', 'Courier New', monospace;
             font-size: 14px;
-            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Language detection badge */
+        .language-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            color: #a0aec0;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .language-badge i {
+            color: #667eea;
+            font-size: 10px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .app-container {
+                flex-direction: column;
+                height: auto;
+                min-height: 90vh;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Status badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            background: rgba(72, 187, 120, 0.1);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            border-radius: 20px;
+            color: #48bb78;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .status-badge i {
+            font-size: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🤖 AI Code Assistant</h1>
-            <p>Generate, debug, and analyze code with AI</p>
-        </div>
-        
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('generate')">🚀 Generate Code</div>
-            <div class="tab" onclick="switchTab('debug')">🐛 Debug Code</div>
-            <div class="tab" onclick="switchTab('analyze')">📁 Analyze File</div>
-        </div>
-        
-        <!-- Generate Tab -->
-        <div id="generate-tab" class="tab-content active">
-            <div class="input-section">
-                <label for="generate-task">What code would you like me to generate?</label>
-                <textarea id="generate-task" placeholder="Example: Create a function to calculate fibonacci numbers..."></textarea>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>AI Code Assistant</h2>
+                    <p>Your coding partner</p>
+                </div>
             </div>
-            
-            <div class="language-selector">
-                <label for="language">Programming Language:</label>
-                <select id="language">
-                    <option value="python">Python</option>
-                    <option value="javascript">JavaScript</option>
-                    <option value="java">Java</option>
-                    <option value="c">C</option>
-                    <option value="cpp">C++</option>
-                </select>
+
+            <!-- Navigation Menu -->
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="switchTab('generate')">
+                    <i class="fas fa-magic"></i>
+                    <span>Generate Code</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('debug')">
+                    <i class="fas fa-bug"></i>
+                    <span>Debug Code</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('analyze')">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Analyze File</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('explain')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Explain Code</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('optimize')">
+                    <i class="fas fa-rocket"></i>
+                    <span>Optimize Code</span>
+                </div>
             </div>
-            
-            <div class="button-section">
-                <button class="btn btn-primary" onclick="generateCode()">Generate Code</button>
-                <button class="btn btn-secondary" onclick="clearGenerate()">Clear</button>
-            </div>
-            
-            <div class="examples">
-                <h4>Try these examples:</h4>
-                <div class="example-tags">
-                    <span class="example-tag" onclick="useGenerateExample('Create a function to check if a number is prime')">Prime Number Checker</span>
-                    <span class="example-tag" onclick="useGenerateExample('Create a function to sort a list using bubble sort')">Bubble Sort</span>
-                    <span class="example-tag" onclick="useGenerateExample('Create a function to find the factorial of a number')">Factorial</span>
-                    <span class="example-tag" onclick="useGenerateExample('Create a class for a simple bank account with deposit and withdraw methods')">Bank Account Class</span>
-                    <span class="example-tag" onclick="useGenerateExample('Create a function to reverse a string')">Reverse String</span>
+
+            <!-- Recent Files -->
+            <div class="recent-files">
+                <h4><i class="fas fa-history"></i> Recent Files</h4>
+                <div class="file-item" onclick="loadRecentFile('main.py')">
+                    <i class="fas fa-file-code"></i>
+                    <span>main.py</span>
+                </div>
+                <div class="file-item" onclick="loadRecentFile('app.js')">
+                    <i class="fas fa-file-code"></i>
+                    <span>app.js</span>
+                </div>
+                <div class="file-item" onclick="loadRecentFile('index.html')">
+                    <i class="fas fa-file-code"></i>
+                    <span>index.html</span>
+                </div>
+                <div class="file-item" onclick="loadRecentFile('style.css')">
+                    <i class="fas fa-file-code"></i>
+                    <span>style.css</span>
                 </div>
             </div>
         </div>
-        
-        <!-- Debug Tab -->
-        <div id="debug-tab" class="tab-content">
-            <div class="input-section">
-                <label for="debug-task">Paste your code to debug:</label>
-                <textarea id="debug-task" placeholder="Paste your code here..."></textarea>
-            </div>
-            
-            <div class="button-section">
-                <button class="btn btn-primary" onclick="debugCode()">Debug Code</button>
-                <button class="btn btn-secondary" onclick="clearDebug()">Clear</button>
-            </div>
-        </div>
-        
-        <!-- Analyze File Tab -->
-        <div id="analyze-tab" class="tab-content">
-            <div class="file-upload-section">
-                <h3>📤 Upload a file to analyze</h3>
-                <div class="file-input-wrapper">
-                    <input type="file" id="file-input" class="file-input" onchange="updateFileName()">
-                    <label for="file-input" class="file-label">Choose File</label>
-                    <span id="file-name" class="file-name">No file chosen</span>
-                    <button class="upload-btn" onclick="uploadAndAnalyze()" id="upload-btn" disabled>Upload & Analyze</button>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Welcome Header -->
+            <div class="welcome-header">
+                <h1>Hello, Developer! 👋</h1>
+                <p>What would you like to create or analyze today?</p>
+                <div class="status-badge" id="modelStatus">
+                    <i class="fas fa-circle"></i>
+                    <span id="modelName">Loading...</span>
                 </div>
-                <p style="margin-top: 10px; font-size: 12px; color: #718096;">Supported: .py, .js, .java, .c, .cpp, .txt, .pdf</p>
             </div>
-            
-            <div class="input-section">
-                <label for="analyze-question">Ask about the file (optional):</label>
-                <textarea id="analyze-question" placeholder="Example: Explain what this code does or Find bugs in this code..."></textarea>
+
+            <!-- Generate Code Tab -->
+            <div id="generate-section" class="tab-section active">
+                <div class="input-card">
+                    <h3><i class="fas fa-lightbulb"></i> Describe what you want to create</h3>
+                    <textarea id="generate-task" placeholder="Example: Create a REST API with Flask that handles user authentication..."></textarea>
+                    
+                    <!-- Inline loading indicator -->
+                    <div class="inline-loading" id="generate-loading">
+                        <div class="inline-spinner"></div>
+                        <span>Generating your code...</span>
+                        <button class="cancel-btn" onclick="cancelRequest('generate')">Cancel</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="generateCode()" id="generate-btn">
+                            <i class="fas fa-play"></i> Generate Code
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearGenerate()">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-card">
+                    <h3><i class="fas fa-star"></i> Popular Examples</h3>
+                    <div class="examples-grid">
+                        <div class="example-item" onclick="useGenerateExample('Create a function to check if a number is prime')">
+                            <i class="fas fa-hashtag"></i> Prime Number Checker
+                        </div>
+                        <div class="example-item" onclick="useGenerateExample('Implement bubble sort algorithm')">
+                            <i class="fas fa-sort"></i> Bubble Sort
+                        </div>
+                        <div class="example-item" onclick="useGenerateExample('Create a function to calculate factorial')">
+                            <i class="fas fa-calculator"></i> Factorial
+                        </div>
+                        <div class="example-item" onclick="useGenerateExample('Create a bank account class with deposit/withdraw')">
+                            <i class="fas fa-university"></i> Bank Account Class
+                        </div>
+                        <div class="example-item" onclick="useGenerateExample('Create a function to reverse a string')">
+                            <i class="fas fa-undo-alt"></i> Reverse String
+                        </div>
+                        <div class="example-item" onclick="useGenerateExample('Create a simple web scraper using requests and BeautifulSoup')">
+                            <i class="fas fa-spider"></i> Web Scraper
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Loading Spinner -->
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>Processing... This may take a moment.</p>
-        </div>
-        
-        <!-- Output Section -->
-        <div class="output-section">
-            <div class="output-header">
-                <h3 id="output-title">Generated Code:</h3>
-                <button class="copy-btn" onclick="copyToClipboard()" id="copyBtn" style="display: none;">Copy to Clipboard</button>
+
+            <!-- Debug Code Tab -->
+            <div id="debug-section" class="tab-section">
+                <div class="input-card">
+                    <h3><i class="fas fa-bug"></i> Paste your code to debug</h3>
+                    <textarea id="debug-task" placeholder="Paste your code here..."></textarea>
+                    
+                    <!-- Inline loading indicator -->
+                    <div class="inline-loading" id="debug-loading">
+                        <div class="inline-spinner"></div>
+                        <span>Debugging your code...</span>
+                        <button class="cancel-btn" onclick="cancelRequest('debug')">Cancel</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="debugCode()" id="debug-btn">
+                            <i class="fas fa-search"></i> Debug Code
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearDebug()">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="output-content" id="output">
-                <pre><code class="language-python" id="code-output">Your output will appear here...</code></pre>
+
+            <!-- Analyze File Tab -->
+            <div id="analyze-section" class="tab-section">
+                <div class="input-card">
+                    <h3><i class="fas fa-upload"></i> Upload File</h3>
+                    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload or drag and drop</p>
+                        <p style="font-size: 12px; margin-top: 5px;">Supports: .py, .js, .java, .c, .cpp, .txt, .pdf</p>
+                        <div class="file-name" id="fileName">No file chosen</div>
+                        <input type="file" id="file-input" style="display: none;" onchange="updateFileName()">
+                    </div>
+
+                    <textarea id="analyze-question" placeholder="Ask about the file (optional) - e.g., 'Explain what this code does' or 'Find security issues'"></textarea>
+                    
+                    <!-- Inline loading indicator -->
+                    <div class="inline-loading" id="analyze-loading">
+                        <div class="inline-spinner"></div>
+                        <span>Analyzing file...</span>
+                        <button class="cancel-btn" onclick="cancelRequest('analyze')">Cancel</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="uploadAndAnalyze()" id="analyze-btn">
+                            <i class="fas fa-search"></i> Analyze File
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Explain Code Tab -->
+            <div id="explain-section" class="tab-section">
+                <div class="input-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Paste code to explain</h3>
+                    <textarea id="explain-task" placeholder="Paste the code you want explained..."></textarea>
+                    
+                    <!-- Inline loading indicator -->
+                    <div class="inline-loading" id="explain-loading">
+                        <div class="inline-spinner"></div>
+                        <span>Analyzing code...</span>
+                        <button class="cancel-btn" onclick="cancelRequest('explain')">Cancel</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="explainCode()" id="explain-btn">
+                            <i class="fas fa-chalkboard-teacher"></i> Explain Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Optimize Code Tab -->
+            <div id="optimize-section" class="tab-section">
+                <div class="input-card">
+                    <h3><i class="fas fa-rocket"></i> Paste code to optimize</h3>
+                    <textarea id="optimize-task" placeholder="Paste your code for optimization..."></textarea>
+                    
+                    <!-- Inline loading indicator -->
+                    <div class="inline-loading" id="optimize-loading">
+                        <div class="inline-spinner"></div>
+                        <span>Optimizing your code...</span>
+                        <button class="cancel-btn" onclick="cancelRequest('optimize')">Cancel</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="optimizeCode()" id="optimize-btn">
+                            <i class="fas fa-tachometer-alt"></i> Optimize Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-card">
+                <div class="output-header">
+                    <h3>
+                        <i class="fas fa-code" id="outputIcon"></i> 
+                        <span id="outputTitle">Generated Code</span>
+                        <span class="language-badge" id="detectedLanguage">
+                            <i class="fas fa-tag"></i>
+                            <span id="langDisplay">Auto-detected</span>
+                        </span>
+                    </h3>
+                    <div class="output-actions">
+                        <button onclick="copyToClipboard()" title="Copy to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button onclick="downloadCode()" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button onclick="clearOutput()" title="Clear">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="code-container">
+                    <pre><code class="language-plaintext" id="codeOutput">Your output will appear here...</code></pre>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentFile = null;
-        let currentLanguage = 'python';
-        
-        // Tab switching
-        function switchTab(tabName) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            // Update output title
-            const titles = {
-                'generate': 'Generated Code:',
-                'debug': 'Debugged Code:',
-                'analyze': 'File Analysis:'
-            };
-            document.getElementById('output-title').textContent = titles[tabName];
-        }
-        
-        // Language selector
-        document.getElementById('language').addEventListener('change', function(e) {
-            currentLanguage = e.target.value;
-            document.getElementById('code-output').className = `language-${currentLanguage}`;
-        });
-        
-        // Generate code
-        async function generateCode() {
-            const task = document.getElementById('generate-task').value.trim();
-            
-            if (!task) {
-                alert('Please enter a task description');
-                return;
+    let currentFile = null;
+    let abortController = null;
+    
+    // Initialize Prism and load model info on startup
+    window.onload = function() {
+        fetchModelInfo();
+        // Ensure Prism is ready
+        if (typeof Prism !== 'undefined') {
+            console.log('Prism loaded successfully');
+            // Manually load HTML language if needed
+            if (!Prism.languages.html) {
+                console.warn('HTML language not loaded');
             }
-            
-            // Add language to the prompt
-            const enhancedTask = `Write ${currentLanguage} code for: ${task}`;
-            
-            await processRequest('generate', enhancedTask);
         }
-        
-        // Debug code
-        async function debugCode() {
-            const code = document.getElementById('debug-task').value.trim();
-            
-            if (!code) {
-                alert('Please paste some code to debug');
-                return;
+    };
+
+    async function fetchModelInfo() {
+        try {
+            const response = await fetch('/api/health');
+            const data = await response.json();
+            if (data.selected_model) {
+                document.getElementById('modelName').textContent = data.selected_model;
             }
-            
-            const task = `Debug this code and provide the fixed version:\n\n${code}`;
-            await processRequest('debug', task);
+            if (data.ollama_status === 'running') {
+                document.querySelector('.status-badge i').style.color = '#48bb78';
+            }
+        } catch (error) {
+            document.getElementById('modelName').textContent = 'Offline';
+        }
+    }
+
+    // Simple language detection from code content
+    function detectLanguage(code) {
+        if (!code || code.trim() === '') return 'plaintext';
+        
+        // Check for HTML first (most specific)
+        if (code.trim().startsWith('<!DOCTYPE html') || 
+            code.includes('<html') || 
+            (code.includes('<body') && code.includes('</body>')) ||
+            (code.includes('<div') && code.includes('</div>'))) {
+            return 'html';
         }
         
-        // Process request
-        async function processRequest(type, task) {
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('code-output').innerHTML = 'Processing...';
-            document.getElementById('copyBtn').style.display = 'none';
-            
-            try {
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ task: task })
-                });
+        // Check for CSS
+        if ((code.includes('{') && code.includes('}') && code.includes(':')) &&
+            (code.includes('px') || code.includes('em') || code.includes('rem') || 
+             code.includes('color') || code.includes('margin') || code.includes('padding'))) {
+            return 'css';
+        }
+        
+        const patterns = {
+            'python': /\b(def |import |from |class |if __name__|print\(|len\(|range\()/,
+            'javascript': /\b(const |let |var |function |=>|console\.log|document\.|window\.)/,
+            'typescript': /\b(interface |type |enum |namespace |export |import .* from)/,
+            'java': /\b(public |private |protected |class |void |String\[\]|System\.out)/,
+            'c': /#include <\w+\.h>|\b(int main\(|printf\(|scanf\()/,
+            'cpp': /#include <\w+>|\b(std::|cout|cin|using namespace)/,
+            'csharp': /\b(using System;|namespace |public class |static void Main|Console\.)/,
+            'go': /\b(package |func |import \(|go |fmt\.)/,
+            'rust': /\b(fn |let mut |println!|crate |impl )/,
+            'php': /<\?php|\b(echo |\$[a-zA-Z_]|function |public function)/,
+            'ruby': /\b(def |class |puts |require |attr_)/,
+            'swift': /\b(import |func |var |let |print\(|UI)/,
+            'kotlin': /\bfun |val |var |class |println\(/
+        };
+        
+        for (const [lang, pattern] of Object.entries(patterns)) {
+            if (pattern.test(code)) {
+                return lang;
+            }
+        }
+        
+        return 'plaintext';
+    }
+
+    // Safe syntax highlighting
+    function highlightCode(element) {
+        if (!element) return;
+        
+        try {
+            if (typeof Prism !== 'undefined' && Prism.highlightElement) {
+                // Remove any existing language class
+                const currentClass = element.className;
+                element.className = currentClass; // Keep the language class
                 
-                const data = await response.json();
+                // Force Prism to highlight
+                Prism.highlightElement(element);
                 
-                // Hide loading
-                document.getElementById('loading').style.display = 'none';
-                
-                if (data.error) {
-                    document.getElementById('code-output').innerHTML = `Error: ${data.error}`;
-                } else {
-                    // Format the output
-                    document.getElementById('code-output').innerHTML = data.result;
-                    Prism.highlightElement(document.getElementById('code-output'));
-                    document.getElementById('copyBtn').style.display = 'inline-block';
+                // For HTML, ensure it's properly highlighted
+                if (element.className.includes('language-html')) {
+                    // Force re-highlight for HTML
+                    setTimeout(() => {
+                        Prism.highlightElement(element);
+                    }, 10);
                 }
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('code-output').innerHTML = `Error: ${error.message}`;
-            }
-        }
-        
-        // File handling
-        function updateFileName() {
-            const fileInput = document.getElementById('file-input');
-            const fileName = document.getElementById('file-name');
-            const uploadBtn = document.getElementById('upload-btn');
-            
-            if (fileInput.files.length > 0) {
-                fileName.textContent = fileInput.files[0].name;
-                uploadBtn.disabled = false;
-                currentFile = fileInput.files[0];
             } else {
-                fileName.textContent = 'No file chosen';
-                uploadBtn.disabled = true;
-                currentFile = null;
+                console.warn('Prism not available');
+            }
+        } catch (error) {
+            console.error('Highlighting error:', error);
+            // Fallback - just show the code without highlighting
+            if (element) {
+                element.classList.add('language-plaintext');
             }
         }
+    }
+
+    // Tab switching
+    function switchTab(tabName) {
+        // Update nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        event.currentTarget.classList.add('active');
         
-        async function uploadAndAnalyze() {
-            if (!currentFile) {
-                alert('Please select a file first');
-                return;
-            }
-            
-            const question = document.getElementById('analyze-question').value.trim();
-            
-            // Show loading
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('code-output').innerHTML = 'Uploading and analyzing file...';
-            
-            // Create form data
-            const formData = new FormData();
-            formData.append('file', currentFile);
-            formData.append('question', question || 'Analyze this file and explain what it does');
-            
-            try {
-                const response = await fetch('/api/analyze-file', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                document.getElementById('loading').style.display = 'none';
-                
-                if (data.error) {
-                    document.getElementById('code-output').innerHTML = `Error: ${data.error}`;
-                } else {
-                    document.getElementById('code-output').innerHTML = data.result;
-                    Prism.highlightElement(document.getElementById('code-output'));
-                    document.getElementById('copyBtn').style.display = 'inline-block';
-                }
-            } catch (error) {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('code-output').innerHTML = `Error: ${error.message}`;
-            }
+        // Update sections
+        document.querySelectorAll('.tab-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById(tabName + '-section').classList.add('active');
+        
+        // Update output title
+        const titles = {
+            'generate': 'Generated Code',
+            'debug': 'Debugged Code',
+            'analyze': 'File Analysis',
+            'explain': 'Code Explanation',
+            'optimize': 'Optimized Code'
+        };
+        
+        const icons = {
+            'generate': 'fa-code',
+            'debug': 'fa-bug',
+            'analyze': 'fa-file-alt',
+            'explain': 'fa-graduation-cap',
+            'optimize': 'fa-rocket'
+        };
+        
+        document.getElementById('outputTitle').textContent = titles[tabName];
+        document.getElementById('outputIcon').className = `fas ${icons[tabName]}`;
+    }
+
+    // Show/hide loading for specific tab
+    function setLoading(tabName, isLoading) {
+        const loadingEl = document.getElementById(`${tabName}-loading`);
+        const btnEl = document.getElementById(`${tabName}-btn`);
+        
+        if (loadingEl) {
+            loadingEl.classList.toggle('active', isLoading);
         }
         
-        // Helper functions
-        function clearGenerate() {
-            document.getElementById('generate-task').value = '';
+        if (btnEl) {
+            btnEl.disabled = isLoading;
+        }
+    }
+
+    // Cancel request
+    function cancelRequest(tabName) {
+        if (abortController) {
+            abortController.abort();
+            abortController = null;
+        }
+        setLoading(tabName, false);
+        const outputEl = document.getElementById('codeOutput');
+        if (outputEl) {
+            outputEl.innerHTML = '⏸️ Request cancelled by user.';
+            outputEl.className = 'language-plaintext';
+        }
+    }
+
+    // Generate code
+    async function generateCode() {
+        const task = document.getElementById('generate-task').value.trim();
+        
+        if (!task) {
+            alert('Please enter a task description');
+            return;
         }
         
-        function clearDebug() {
-            document.getElementById('debug-task').value = '';
+        // Let the AI decide the language based on the task
+        const enhancedTask = `Generate code for: ${task}. Please include the code only.`;
+        
+        // Cancel any existing request
+        if (abortController) {
+            abortController.abort();
         }
         
-        function useGenerateExample(example) {
-            document.getElementById('generate-task').value = example;
-            switchTab('generate');
-        }
+        abortController = new AbortController();
+        setLoading('generate', true);
         
-        function copyToClipboard() {
-            const output = document.getElementById('code-output').innerText;
-            navigator.clipboard.writeText(output).then(() => {
-                alert('Code copied to clipboard!');
-            }).catch(err => {
-                alert('Failed to copy code');
+        try {
+            const timeoutId = setTimeout(() => abortController.abort(), 30000);
+            
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ task: enhancedTask }),
+                signal: abortController.signal
             });
+            
+            clearTimeout(timeoutId);
+            
+            const data = await response.json();
+            
+            setLoading('generate', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            
+            if (data.error) {
+                if (outputEl) {
+                    outputEl.innerHTML = `❌ Error: ${data.error}`;
+                    outputEl.className = 'language-plaintext';
+                }
+            } else {
+                const code = data.result || 'No output generated';
+                if (outputEl) {
+                    // Clean up the code - remove markdown if present
+                    let cleanCode = code;
+                    if (code.includes('```')) {
+                        // Extract code from markdown code blocks
+                        const matches = code.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                        if (matches && matches[1]) {
+                            cleanCode = matches[1];
+                        }
+                    }
+                    
+                    outputEl.innerHTML = cleanCode;
+                    
+                    // Detect language from the generated code
+                    const detectedLang = detectLanguage(cleanCode);
+                    outputEl.className = `language-${detectedLang}`;
+                    document.getElementById('langDisplay').textContent = detectedLang;
+                    
+                    // Use setTimeout to ensure DOM is updated before highlighting
+                    setTimeout(() => highlightCode(outputEl), 100);
+                }
+            }
+        } catch (error) {
+            setLoading('generate', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            if (outputEl) {
+                if (error.name === 'AbortError') {
+                    outputEl.innerHTML = '⚠️ Request timed out. Please try again.';
+                } else {
+                    outputEl.innerHTML = `❌ Error: ${error.message}`;
+                }
+                outputEl.className = 'language-plaintext';
+            }
+        }
+    }
+
+    // Debug code
+    async function debugCode() {
+        const code = document.getElementById('debug-task').value.trim();
+        
+        if (!code) {
+            alert('Please paste some code to debug');
+            return;
         }
         
-        // Enter key shortcut for generate
-        document.getElementById('generate-task').addEventListener('keydown', function(e) {
+        const detectedLang = detectLanguage(code);
+        const task = `Debug this ${detectedLang} code and provide the fixed version with explanation:\n\n${code}`;
+        
+        if (abortController) {
+            abortController.abort();
+        }
+        
+        abortController = new AbortController();
+        setLoading('debug', true);
+        
+        try {
+            const timeoutId = setTimeout(() => abortController.abort(), 30000);
+            
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ task: task }),
+                signal: abortController.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            const data = await response.json();
+            
+            setLoading('debug', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            
+            if (data.error) {
+                if (outputEl) {
+                    outputEl.innerHTML = `❌ Error: ${data.error}`;
+                    outputEl.className = 'language-plaintext';
+                }
+            } else {
+                if (outputEl) {
+                    // Clean up the code - remove markdown if present
+                    let cleanCode = data.result;
+                    if (data.result.includes('```')) {
+                        const matches = data.result.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                        if (matches && matches[1]) {
+                            cleanCode = matches[1];
+                        }
+                    }
+                    
+                    outputEl.innerHTML = cleanCode;
+                    
+                    // Detect language from the debugged code
+                    const newLang = detectLanguage(cleanCode);
+                    outputEl.className = `language-${newLang}`;
+                    document.getElementById('langDisplay').textContent = newLang;
+                    
+                    setTimeout(() => highlightCode(outputEl), 100);
+                }
+            }
+        } catch (error) {
+            setLoading('debug', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            if (outputEl) {
+                if (error.name === 'AbortError') {
+                    outputEl.innerHTML = '⚠️ Request timed out. Please try again.';
+                } else {
+                    outputEl.innerHTML = `❌ Error: ${error.message}`;
+                }
+                outputEl.className = 'language-plaintext';
+            }
+        }
+    }
+
+    // Explain code
+    async function explainCode() {
+        const code = document.getElementById('explain-task').value.trim();
+        
+        if (!code) {
+            alert('Please paste some code to explain');
+            return;
+        }
+        
+        const detectedLang = detectLanguage(code);
+        const task = `Explain this ${detectedLang} code in detail, line by line:\n\n${code}`;
+        
+        if (abortController) {
+            abortController.abort();
+        }
+        
+        abortController = new AbortController();
+        setLoading('explain', true);
+        
+        try {
+            const timeoutId = setTimeout(() => abortController.abort(), 30000);
+            
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ task: task }),
+                signal: abortController.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            const data = await response.json();
+            
+            setLoading('explain', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            
+            if (data.error) {
+                if (outputEl) {
+                    outputEl.innerHTML = `❌ Error: ${data.error}`;
+                }
+            } else {
+                if (outputEl) {
+                    outputEl.innerHTML = data.result;
+                    // Explanations are text, not code
+                    outputEl.className = 'language-plaintext';
+                    document.getElementById('langDisplay').textContent = 'explanation';
+                }
+            }
+        } catch (error) {
+            setLoading('explain', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            if (outputEl) {
+                if (error.name === 'AbortError') {
+                    outputEl.innerHTML = '⚠️ Request timed out. Please try again.';
+                } else {
+                    outputEl.innerHTML = `❌ Error: ${error.message}`;
+                }
+                outputEl.className = 'language-plaintext';
+            }
+        }
+    }
+
+    // Optimize code
+    async function optimizeCode() {
+        const code = document.getElementById('optimize-task').value.trim();
+        
+        if (!code) {
+            alert('Please paste some code to optimize');
+            return;
+        }
+        
+        const detectedLang = detectLanguage(code);
+        const task = `Optimize this ${detectedLang} code for better performance and readability:\n\n${code}`;
+        
+        if (abortController) {
+            abortController.abort();
+        }
+        
+        abortController = new AbortController();
+        setLoading('optimize', true);
+        
+        try {
+            const timeoutId = setTimeout(() => abortController.abort(), 30000);
+            
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ task: task }),
+                signal: abortController.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            const data = await response.json();
+            
+            setLoading('optimize', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            
+            if (data.error) {
+                if (outputEl) {
+                    outputEl.innerHTML = `❌ Error: ${data.error}`;
+                    outputEl.className = 'language-plaintext';
+                }
+            } else {
+                if (outputEl) {
+                    // Clean up the code - remove markdown if present
+                    let cleanCode = data.result;
+                    if (data.result.includes('```')) {
+                        const matches = data.result.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                        if (matches && matches[1]) {
+                            cleanCode = matches[1];
+                        }
+                    }
+                    
+                    outputEl.innerHTML = cleanCode;
+                    
+                    // Detect language from the optimized code
+                    const newLang = detectLanguage(cleanCode);
+                    outputEl.className = `language-${newLang}`;
+                    document.getElementById('langDisplay').textContent = newLang;
+                    
+                    setTimeout(() => highlightCode(outputEl), 100);
+                }
+            }
+        } catch (error) {
+            setLoading('optimize', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            if (outputEl) {
+                if (error.name === 'AbortError') {
+                    outputEl.innerHTML = '⚠️ Request timed out. Please try again.';
+                } else {
+                    outputEl.innerHTML = `❌ Error: ${error.message}`;
+                }
+                outputEl.className = 'language-plaintext';
+            }
+        }
+    }
+
+    // File handling
+    function updateFileName() {
+        const fileInput = document.getElementById('file-input');
+        const fileName = document.getElementById('fileName');
+        
+        if (fileInput.files.length > 0) {
+            fileName.textContent = fileInput.files[0].name;
+            currentFile = fileInput.files[0];
+        } else {
+            fileName.textContent = 'No file chosen';
+            currentFile = null;
+        }
+    }
+
+    async function uploadAndAnalyze() {
+        if (!currentFile) {
+            alert('Please select a file first');
+            return;
+        }
+        
+        const question = document.getElementById('analyze-question').value.trim() || 'Analyze this file and explain what it does';
+        
+        if (abortController) {
+            abortController.abort();
+        }
+        
+        abortController = new AbortController();
+        setLoading('analyze', true);
+        
+        const formData = new FormData();
+        formData.append('file', currentFile);
+        formData.append('question', question);
+        
+        try {
+            const timeoutId = setTimeout(() => abortController.abort(), 30000);
+            
+            const response = await fetch('/api/analyze-file', {
+                method: 'POST',
+                body: formData,
+                signal: abortController.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            const data = await response.json();
+            
+            setLoading('analyze', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            
+            if (data.error) {
+                if (outputEl) {
+                    outputEl.innerHTML = `❌ Error: ${data.error}`;
+                }
+            } else {
+                if (outputEl) {
+                    // Clean up the code - remove markdown if present
+                    let cleanCode = data.result;
+                    if (data.result.includes('```')) {
+                        const matches = data.result.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                        if (matches && matches[1]) {
+                            cleanCode = matches[1];
+                        }
+                    }
+                    
+                    outputEl.innerHTML = cleanCode;
+                    
+                    // Try to detect language from the file content if it's code
+                    if (currentFile.name.match(/\.(py|js|java|c|cpp|cs|go|rs|php|rb|swift|kt|ts|html|css)$/)) {
+                        const detectedLang = detectLanguage(cleanCode);
+                        outputEl.className = `language-${detectedLang}`;
+                        document.getElementById('langDisplay').textContent = detectedLang;
+                        setTimeout(() => highlightCode(outputEl), 100);
+                    } else {
+                        outputEl.className = 'language-plaintext';
+                        document.getElementById('langDisplay').textContent = 'analysis';
+                    }
+                }
+            }
+        } catch (error) {
+            setLoading('analyze', false);
+            abortController = null;
+            
+            const outputEl = document.getElementById('codeOutput');
+            if (outputEl) {
+                if (error.name === 'AbortError') {
+                    outputEl.innerHTML = '⚠️ Request timed out. The file might be too large.';
+                } else {
+                    outputEl.innerHTML = `❌ Error: ${error.message}`;
+                }
+                outputEl.className = 'language-plaintext';
+            }
+        }
+    }
+
+    // Load recent file (simulated)
+    function loadRecentFile(filename) {
+        // Switch to analyze tab
+        document.querySelectorAll('.nav-item')[2].click();
+        
+        // Simulate file selection
+        document.getElementById('fileName').textContent = filename;
+        currentFile = { name: filename };
+        
+        // Set a sample question
+        document.getElementById('analyze-question').value = `Analyze ${filename} and explain its purpose`;
+    }
+
+    // Utility functions
+    function clearGenerate() {
+        document.getElementById('generate-task').value = '';
+    }
+
+    function clearDebug() {
+        document.getElementById('debug-task').value = '';
+    }
+
+    function clearOutput() {
+        const outputEl = document.getElementById('codeOutput');
+        if (outputEl) {
+            outputEl.innerHTML = 'Your output will appear here...';
+            outputEl.className = 'language-plaintext';
+        }
+        document.getElementById('langDisplay').textContent = 'auto-detected';
+    }
+
+    function useGenerateExample(example) {
+        document.getElementById('generate-task').value = example;
+        switchTab('generate');
+    }
+
+    function copyToClipboard() {
+        const outputEl = document.getElementById('codeOutput');
+        if (!outputEl) return;
+        
+        const output = outputEl.innerText;
+        navigator.clipboard.writeText(output).then(() => {
+            alert('✅ Copied to clipboard!');
+        }).catch(err => {
+            alert('❌ Failed to copy');
+        });
+    }
+
+    function downloadCode() {
+        const outputEl = document.getElementById('codeOutput');
+        if (!outputEl) return;
+        
+        const output = outputEl.innerText;
+        const detectedLang = document.getElementById('langDisplay').textContent;
+        
+        // Map language to file extension
+        const extensions = {
+            'python': 'py',
+            'javascript': 'js',
+            'typescript': 'ts',
+            'java': 'java',
+            'c': 'c',
+            'cpp': 'cpp',
+            'csharp': 'cs',
+            'go': 'go',
+            'rust': 'rs',
+            'php': 'php',
+            'ruby': 'rb',
+            'swift': 'swift',
+            'kotlin': 'kt',
+            'html': 'html',
+            'css': 'css',
+            'plaintext': 'txt',
+            'explanation': 'txt',
+            'analysis': 'txt',
+            'auto-detected': 'txt'
+        };
+        
+        const ext = extensions[detectedLang] || 'txt';
+        
+        const blob = new Blob([output], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `code.${ext}`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // Enter key shortcut for generate
+    const generateTask = document.getElementById('generate-task');
+    if (generateTask) {
+        generateTask.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 generateCode();
             }
         });
-    </script>
+    }
+
+    // Drag and drop for file upload
+    const uploadArea = document.querySelector('.upload-area');
+    
+    if (uploadArea) {
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#667eea';
+            uploadArea.style.background = 'rgba(102, 126, 234, 0.1)';
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'rgba(102, 126, 234, 0.3)';
+            uploadArea.style.background = 'rgba(0, 0, 0, 0.2)';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = 'rgba(102, 126, 234, 0.3)';
+            uploadArea.style.background = 'rgba(0, 0, 0, 0.2)';
+            
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                document.getElementById('file-input').files = e.dataTransfer.files;
+                updateFileName();
+            }
+        });
+    }
+
+    // Test HTML highlighting
+    function testHtmlHighlighting() {
+        const testHtml = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+    <style>
+        body { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World</h1>
+    </div>
+</body>
+</html>`;
+        
+        const outputEl = document.getElementById('codeOutput');
+        if (outputEl) {
+            outputEl.innerHTML = testHtml;
+            outputEl.className = 'language-html';
+            document.getElementById('langDisplay').textContent = 'html';
+            setTimeout(() => highlightCode(outputEl), 100);
+        }
+    }
+   </script>
 </body>
 </html>
